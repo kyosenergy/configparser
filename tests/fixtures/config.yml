@@ -1,0 +1,5 @@
+application:
+  releaseStage: Production
+  version: 6
+  debugMode: true
+valueX: 'TestValue'

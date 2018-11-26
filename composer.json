@@ -1,0 +1,41 @@
+{
+    "name": "kyos/configparser",
+    "type": "library",
+    "description": "A simple YAML config file loader.",
+    "keywords": ["kyos", "configparser", "yaml", "yamlconfig"],
+    "homepage": "https://github.com/kyos/configparser",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Zois Pagoulatos",
+            "email": "pagoulatos@kyos.com",
+            "homepage": "https://www.kyos.com/"
+        }
+    ],
+    "require": {
+        "php": ">=7.0.0",
+        "symfony/yaml": "^4.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.0",
+        "squizlabs/php_codesniffer": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kyos\\": "src"
+        }
+    },
+    "scripts": {
+        "test": "phpunit --testdox",
+        "check-style": "phpcs src tests",
+        "fix-style": "phpcbf src tests"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
