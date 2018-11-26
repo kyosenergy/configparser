@@ -2,9 +2,9 @@
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
-[![Build Status](https://travis-ci.com/kyosenergy/configparser.svg?branch=master)](https://travis-ci.com/kyosenergy/configparser)
-[![Coverage Status][ico-scrutinizer]][link-scrutinizer]
-[![StyleCI](https://github.styleci.io/repos/159172475/shield?branch=master)](https://github.styleci.io/repos/159172475)
+[![Build Status][ico-travis]][link-travis]
+[![Coverage Status][ico-codecov]][link-codecov]
+[![StyleCI][ico-styleci]][link-styleci]
 [![Total Downloads][ico-downloads]][link-downloads]
 
 This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what
@@ -110,15 +110,15 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 
 [ico-version]: https://img.shields.io/packagist/v/kyos/configparser.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/kyos/configparser/master.svg?style=flat-square
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/kyos/configparser.svg?style=flat-square
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/kyos/configparser.svg?style=flat-square
+[ico-travis]: https://travis-ci.com/kyosenergy/configparser.svg?branch=master
+[ico-codecov]: https://codecov.io/gh/kyosenergy/configparser/branch/master/graph/badge.svg
+[ico-styleci]: https://github.styleci.io/repos/159172475/shield?branch=master
 [ico-downloads]: https://img.shields.io/packagist/dt/kyos/configparser.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/kyos/configparser
 [link-travis]: https://travis-ci.com/kyosenergy/configparser
-[link-scrutinizer]: https://scrutinizer-ci.com/g/kyos/configparser/code-structure
-[link-code-quality]: https://scrutinizer-ci.com/g/kyos/configparser
+[link-codecov]: https://codecov.io/gh/kyosenergy/configparser
+[link-styleci]: https://github.styleci.io/repos/159172475
 [link-downloads]: https://packagist.org/packages/kyos/configparser
 [link-author]: https://github.com/zoispag
 [link-contributors]: ../../contributors
