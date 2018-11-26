@@ -4,7 +4,7 @@
 [![Software License][ico-license]](LICENSE.md)
 [![Build Status](https://travis-ci.com/kyosenergy/configparser.svg?branch=master)](https://travis-ci.com/kyosenergy/configparser)
 [![Coverage Status][ico-scrutinizer]][link-scrutinizer]
-[![Quality Score][ico-code-quality]][link-code-quality]
+[![StyleCI](https://github.styleci.io/repos/159172475/shield?branch=master)](https://github.styleci.io/repos/159172475)
 [![Total Downloads][ico-downloads]][link-downloads]
 
 This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what
