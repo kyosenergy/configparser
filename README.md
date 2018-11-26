@@ -19,6 +19,14 @@ $ composer require kyos/configparser
 
 ## Usage
 
+Given the following `config.yaml` configuration file:
+```yaml
+application:
+  releaseStage: Production
+  debugMode: true
+```
+you can parse any of its properties using:
+
 ```php
 $parser = new Kyos\ConfigParser('config.yaml');
 echo $parser->get('application.releaseStage');
@@ -26,19 +34,19 @@ echo $parser->get('application.releaseStage');
 
 You can use the following notations:
 
-1. String notation (for top level keys):
-```php
-echo $parser->get('application');
-```
-
-2. Dot notation:
+1. **Dot notation**:
 ```php
 echo $parser->get('application.releaseStage');
 ```
 
-3. Array notation:
+2. **Array notation**:
 ```php
 echo $parser->get(['application', 'releaseStage']);
+```
+
+3. **String notation** (for top level keys):
+```php
+var_dump($parser->get('application'));
 ```
 
 ## Assertions
