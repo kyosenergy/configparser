@@ -86,10 +86,12 @@ echo $parser->evaluate('application.releaseStage')->isOneOf(['Production', 'Stag
 
 ### Chain
 
-Assertion function can be also chained.
+Assertion functions can be also chained.
 
 ```php
-echo $parser->evaluate('application.releaseStage')->isRequired()->isString()->isOneOf(['Production', 'Staging', 'Test']);
+echo $parser->evaluate('application.releaseStage')
+            ->isRequired()->isString()
+            ->isOneOf(['Production', 'Staging', 'Test']);
 ```
 
 ## Change log
