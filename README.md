@@ -108,12 +108,12 @@ If you discover any security related issues, please email pagoulatos@kyos.com in
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-[ico-version]: https://img.shields.io/packagist/v/kyos/configparser.svg?style=flat-square
-[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
+[ico-version]: https://img.shields.io/packagist/v/kyos/configparser.svg
+[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg
 [ico-travis]: https://travis-ci.com/kyosenergy/configparser.svg?branch=master
 [ico-codecov]: https://codecov.io/gh/kyosenergy/configparser/branch/master/graph/badge.svg
 [ico-styleci]: https://github.styleci.io/repos/159172475/shield?branch=master
-[ico-downloads]: https://img.shields.io/packagist/dt/kyos/configparser.svg?style=flat-square
+[ico-downloads]: https://img.shields.io/packagist/dt/kyos/configparser.svg
 
 [link-packagist]: https://packagist.org/packages/kyos/configparser
 [link-travis]: https://travis-ci.com/kyosenergy/configparser
