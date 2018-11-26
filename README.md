@@ -116,7 +116,7 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [ico-downloads]: https://img.shields.io/packagist/dt/kyos/configparser.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/kyos/configparser
-[link-travis]: https://travis-ci.org/kyos/configparser
+[link-travis]: https://travis-ci.org/kyosenergy/configparser
 [link-scrutinizer]: https://scrutinizer-ci.com/g/kyos/configparser/code-structure
 [link-code-quality]: https://scrutinizer-ci.com/g/kyos/configparser
 [link-downloads]: https://packagist.org/packages/kyos/configparser
