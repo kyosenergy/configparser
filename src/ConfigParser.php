@@ -91,7 +91,7 @@ class ConfigParser
         $configValue = $this->loadedConfig;
 
         foreach ($this->getSearchKey($key) as $property) {
-            $configValue = array_key_exists($property, $configValue)
+            $configValue = (is_array($configValue) && array_key_exists($property, $configValue))
                 ? $configValue[$property]
                 : null;
         }

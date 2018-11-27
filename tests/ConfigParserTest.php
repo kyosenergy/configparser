@@ -110,12 +110,38 @@ class ConfigParserTest extends TestCase
     /**
      * @test
      */
+    public function returnsNullIfDeeperValueIsMissing()
+    {
+        $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
+        $parser = new ConfigParser($configFile);
+
+        $value = $parser->get('application.missingProperty.missingProperty');
+
+        $this->assertEquals(null, $value);
+    }
+
+    /**
+     * @test
+     */
     public function returnsProvidedFallbackIfKeyIsMissing()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
         $parser = new ConfigParser($configFile);
 
         $value = $parser->get('invlidPath', 'ArbitraryValue');
+
+        $this->assertEquals('ArbitraryValue', $value);
+    }
+
+    /**
+     * @test
+     */
+    public function returnsProvidedFallbackIfDeeperValueIsMissing()
+    {
+        $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
+        $parser = new ConfigParser($configFile);
+
+        $value = $parser->get('application.missingProperty.missingProperty', 'ArbitraryValue');
 
         $this->assertEquals('ArbitraryValue', $value);
     }
