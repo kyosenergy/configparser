@@ -121,7 +121,7 @@ class ConfigParser
      *
      * @throws \InvalidArgumentException
      */
-    private function ensureValidationKeysExist()
+    private function ensureValuationKeysExist()
     {
         if (!$this->evaluateKeys) {
             throw new \InvalidArgumentException($this->exceptionMessage('noValuationKey'));
@@ -138,7 +138,7 @@ class ConfigParser
      */
     public function isRequired(): self
     {
-        $this->ensureValidationKeysExist();
+        $this->ensureValuationKeysExist();
         $this->valuationIsRequired = true;
 
         if (is_null($this->evaluateProperty)) {
@@ -156,7 +156,7 @@ class ConfigParser
      */
     public function isString(): self
     {
-        $this->ensureValidationKeysExist();
+        $this->ensureValuationKeysExist();
 
         if ($this->valuationIsRequired && !is_string($this->evaluateProperty)) {
             throw new \UnexpectedValueException($this->exceptionMessage('string'));
@@ -173,7 +173,7 @@ class ConfigParser
      */
     public function isNumeric(): self
     {
-        $this->ensureValidationKeysExist();
+        $this->ensureValuationKeysExist();
 
         if ($this->valuationIsRequired && !is_numeric($this->evaluateProperty)) {
             throw new \UnexpectedValueException($this->exceptionMessage('number'));
@@ -190,7 +190,7 @@ class ConfigParser
      */
     public function isBoolean(): self
     {
-        $this->ensureValidationKeysExist();
+        $this->ensureValuationKeysExist();
 
         if ($this->valuationIsRequired && !is_bool($this->evaluateProperty)) {
             throw new \UnexpectedValueException($this->exceptionMessage('boolean'));
@@ -209,7 +209,7 @@ class ConfigParser
      */
     public function isOneOf(array $allowedValues): self
     {
-        $this->ensureValidationKeysExist();
+        $this->ensureValuationKeysExist();
 
         if ($this->valuationIsRequired && !in_array($this->evaluateProperty, $allowedValues)) {
             throw new \UnexpectedValueException($this->exceptionMessage('oneOf'));
