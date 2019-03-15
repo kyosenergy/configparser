@@ -35,7 +35,6 @@ class ConfigParser
                 $yamlParser = new YamlParser;
                 $config     = $yamlParser->parseFile($path);
             } catch (ParseException $e) {
-                $this->lastParseException = $e;
                 throw $e;
             }
             self::$configCache[$path] = $config;
@@ -60,7 +59,7 @@ class ConfigParser
     public static function ensureFileIsReadable($path)
     {
         if (!is_readable($path) || !is_file($path)) {
-            throw new \InvalidArgumentException($this->exceptionMessage('fileNotReadable'));
+            throw new \InvalidArgumentException(self::exceptionMessage('fileNotReadable'));
         }
     }
 
@@ -128,7 +127,7 @@ class ConfigParser
     private function ensureValuationKeysExist()
     {
         if (!$this->evaluateKeys) {
-            throw new \InvalidArgumentException($this->exceptionMessage('noValuationKey'));
+            throw new \InvalidArgumentException(self::exceptionMessage('noValuationKey'));
         }
 
         $this->valuationIsRequired = true;
@@ -146,7 +145,7 @@ class ConfigParser
         $this->valuationIsRequired = true;
 
         if (is_null($this->evaluateProperty)) {
-            throw new \Exception($this->exceptionMessage('required'));
+            throw new \Exception(self::exceptionMessage('required', $this->evaluateKeys));
         }
 
         return $this;
@@ -163,7 +162,7 @@ class ConfigParser
         $this->ensureValuationKeysExist();
 
         if ($this->valuationIsRequired && !is_string($this->evaluateProperty)) {
-            throw new \UnexpectedValueException($this->exceptionMessage('string'));
+            throw new \UnexpectedValueException(self::exceptionMessage('string', $this->evaluateKeys));
         }
 
         return $this;
@@ -180,7 +179,7 @@ class ConfigParser
         $this->ensureValuationKeysExist();
 
         if ($this->valuationIsRequired && !is_numeric($this->evaluateProperty)) {
-            throw new \UnexpectedValueException($this->exceptionMessage('number'));
+            throw new \UnexpectedValueException(self::exceptionMessage('number', $this->evaluateKeys));
         }
 
         return $this;
@@ -197,7 +196,7 @@ class ConfigParser
         $this->ensureValuationKeysExist();
 
         if ($this->valuationIsRequired && !is_bool($this->evaluateProperty)) {
-            throw new \UnexpectedValueException($this->exceptionMessage('boolean'));
+            throw new \UnexpectedValueException(self::exceptionMessage('boolean', $this->evaluateKeys));
         }
 
         return $this;
@@ -216,7 +215,7 @@ class ConfigParser
         $this->ensureValuationKeysExist();
 
         if ($this->valuationIsRequired && !in_array($this->evaluateProperty, $allowedValues)) {
-            throw new \UnexpectedValueException($this->exceptionMessage('oneOf'));
+            throw new \UnexpectedValueException(self::exceptionMessage('oneOf', $this->evaluateKeys));
         }
 
         return $this;
@@ -229,9 +228,14 @@ class ConfigParser
      *
      * @return string
      */
-    private function exceptionMessage(string $type): string
+    public static function exceptionMessage(string $type, array $evaluateKeys = []): string
     {
         $exceptionMessage = '';
+
+        if ($evaluateKeys) {
+            $key = implode('.', $evaluateKeys);
+        }
+
         switch ($type) {
             case 'fileNotReadable':
                 $exceptionMessage = "Unable to read the provided yaml file";
@@ -239,31 +243,18 @@ class ConfigParser
             case 'boolean':
             case 'string':
             case 'number':
-                $k = $this->expandConfigKey();
-                $exceptionMessage = "One or more environment variables failed assertions: {$k} is not a {$type}";
+                $exceptionMessage = "One or more environment variables failed assertions: {$key} is not a {$type}";
                 break;
             case 'required':
-                $k = $this->expandConfigKey();
-                $exceptionMessage = "One or more environment variables failed assertions: {$k} is empty";
+                $exceptionMessage = "One or more environment variables failed assertions: {$key} is empty";
                 break;
             case 'oneOf':
-                $k = $this->expandConfigKey();
-                $exceptionMessage = "One or more environment variables failed assertions: {$k} is not an allowed value";
+                $exceptionMessage = "One or more environment variables failed assertions: {$key} is not an allowed value";
                 break;
             case 'noValuationKey':
                 $exceptionMessage = 'No evaluation keys found. Cannot proceed with check.';
                 break;
         }
         return $exceptionMessage;
-    }
-
-    /**
-     * Returns the do notation of the requested valuation key
-     *
-     * @return string
-     */
-    private function expandConfigKey(): string
-    {
-        return implode('.', $this->evaluateKeys);
     }
 }
