@@ -7,7 +7,8 @@ use Symfony\Component\Yaml\Yaml as YamlParser;
 
 class ConfigParser
 {
-    protected $yamlParser;
+    public static $configCache = [];
+
     protected $lastParseException;
 
     protected $loadedConfig;
@@ -17,34 +18,37 @@ class ConfigParser
     protected $valuationIsRequired;
 
     /**
-     * Initializes the YamlParser property and parses a file.
-     *
-     * @param string $source
-     * @throws \Exception
+     * Get a parser for a file.
+     * If the file is already loaded this will contain the already parsed result object.
      */
-    public function __construct($source = '.userConfig.yml')
+    public static function getParserForFile($path)
     {
-        $this->yamlParser = new YamlParser;
-        $this->parseConfig($source);
+        self::ensureFileIsReadable($path);
+        $path = realpath($path); // realpath only works on existing paths! so we checked it first.
+
+        // if this file was parsed already, directly return a ConfigParser instance with the loaded config set.
+        if (isset(self::$configCache[$path])) {
+            $config = self::$configCache[$path];
+        } else {
+            // not parsed. parse it, add to cache and return object.
+            try {
+                $yamlParser = new YamlParser;
+                $config     = $yamlParser->parseFile($path);
+            } catch (ParseException $e) {
+                $this->lastParseException = $e;
+                throw $e;
+            }
+            self::$configCache[$path] = $config;
+        }
+
+        $parser = new ConfigParser;
+        $parser->setLoadedConfig($config);
+        return $parser;
     }
 
-    /**
-     * Parse a string of YAML and return the.
-     *
-     * @param string $path
-     * @throws \Symfony\Component\Yaml\Exception\ParseException
-     * @throws \Exception
-     */
-    private function parseConfig($path)
+    public function setLoadedConfig($config)
     {
-        $this->ensureFileIsReadable($path);
-
-        try {
-            $this->loadedConfig = $this->yamlParser->parseFile($path);
-        } catch (ParseException $e) {
-            $this->lastParseException = $e;
-            throw $e;
-        }
+        $this->loadedConfig = $config;
     }
 
     /**
@@ -53,7 +57,7 @@ class ConfigParser
      * @return void
      * @throws \InvalidArgumentException
      */
-    protected function ensureFileIsReadable($path)
+    public static function ensureFileIsReadable($path)
     {
         if (!is_readable($path) || !is_file($path)) {
             throw new \InvalidArgumentException($this->exceptionMessage('fileNotReadable'));
