@@ -249,7 +249,8 @@ class ConfigParser
                 $exceptionMessage = "One or more environment variables failed assertions: {$key} is empty";
                 break;
             case 'oneOf':
-                $exceptionMessage = "One or more environment variables failed assertions: {$key} is not an allowed value";
+                $exceptionMessage = "One or more environment variables failed assertions: " .
+                "{$key} is not an allowed value";
                 break;
             case 'noValuationKey':
                 $exceptionMessage = 'No evaluation keys found. Cannot proceed with check.';
