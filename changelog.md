@@ -4,10 +4,10 @@ All notable changes to `configparser` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
-## [1.1.0] - 2019-03-15
+## [2.0.0] - 2019-03-15
 ### Change
+- BREAKING: changed calling methodology from constructor to static method
 - Added static property to keep a cache of loaded files
-- Changed calling methodology from constructor to static method
 
 ## [1.0.4] - 2018-11-27
 ### Bugfix
