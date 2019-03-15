@@ -16,7 +16,7 @@ class ConfigParserTest extends TestCase
     public function nonExistingFileGivesException()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/missingconfig.yml';
-        $parser = new ConfigParser($configFile);
+        $parser = ConfigParser::getParserForFile($configFile);
     }
 
     /**
@@ -25,7 +25,7 @@ class ConfigParserTest extends TestCase
     public function existingFileCanBeLoaded()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/emptyconfig.yml';
-        $parser = new ConfigParser($configFile);
+        $parser = ConfigParser::getParserForFile($configFile);
 
         $this->assertInstanceOf('Kyos\ConfigParser', $parser);
     }
@@ -38,7 +38,7 @@ class ConfigParserTest extends TestCase
     public function invlidFileThrowsException()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/invalidconfig.yml';
-        $parser = new ConfigParser($configFile);
+        $parser = ConfigParser::getParserForFile($configFile);
     }
 
     /**
@@ -47,7 +47,7 @@ class ConfigParserTest extends TestCase
     public function canParseAnExistingValueUsingSingleString()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
-        $parser = new ConfigParser($configFile);
+        $parser = ConfigParser::getParserForFile($configFile);
 
         $value = $parser->get('valueX');
 
@@ -60,7 +60,7 @@ class ConfigParserTest extends TestCase
     public function canParseAnExistingValueUsingDotNotation()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
-        $parser = new ConfigParser($configFile);
+        $parser = ConfigParser::getParserForFile($configFile);
 
         $value = $parser->get('application.releaseStage');
 
@@ -73,7 +73,7 @@ class ConfigParserTest extends TestCase
     public function canParseAnExistingValueUsingArrayNotation()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
-        $parser = new ConfigParser($configFile);
+        $parser = ConfigParser::getParserForFile($configFile);
 
         $value = $parser->get(['application', 'releaseStage']);
 
@@ -86,7 +86,7 @@ class ConfigParserTest extends TestCase
     public function arrayNotationAndDotNotationResultToSameConfig()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
-        $parser = new ConfigParser($configFile);
+        $parser = ConfigParser::getParserForFile($configFile);
 
         $this->assertSame(
             $parser->get('application.releaseStage'),
@@ -100,7 +100,7 @@ class ConfigParserTest extends TestCase
     public function returnsNullIfValueIsMissing()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
-        $parser = new ConfigParser($configFile);
+        $parser = ConfigParser::getParserForFile($configFile);
 
         $value = $parser->get('application.missingProperty');
 
@@ -113,7 +113,7 @@ class ConfigParserTest extends TestCase
     public function returnsNullIfDeeperValueIsMissing()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
-        $parser = new ConfigParser($configFile);
+        $parser = ConfigParser::getParserForFile($configFile);
 
         $value = $parser->get('application.missingProperty.missingProperty');
 
@@ -126,7 +126,7 @@ class ConfigParserTest extends TestCase
     public function returnsProvidedFallbackIfKeyIsMissing()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
-        $parser = new ConfigParser($configFile);
+        $parser = ConfigParser::getParserForFile($configFile);
 
         $value = $parser->get('invlidPath', 'ArbitraryValue');
 
@@ -139,7 +139,7 @@ class ConfigParserTest extends TestCase
     public function returnsProvidedFallbackIfDeeperValueIsMissing()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
-        $parser = new ConfigParser($configFile);
+        $parser = ConfigParser::getParserForFile($configFile);
 
         $value = $parser->get('application.missingProperty.missingProperty', 'ArbitraryValue');
 
@@ -152,7 +152,7 @@ class ConfigParserTest extends TestCase
     public function returnsProvidedFallbackIfValueIsMissing()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
-        $parser = new ConfigParser($configFile);
+        $parser = ConfigParser::getParserForFile($configFile);
 
         $value = $parser->get('application.missingProperty', 'ArbitraryValue');
 
@@ -166,7 +166,7 @@ class ConfigParserTest extends TestCase
     public function beforeValuationCheckEvaluateFunctionHasToBeExecuted()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
-        $parser = new ConfigParser($configFile);
+        $parser = ConfigParser::getParserForFile($configFile);
 
         $parser->isString();
     }
@@ -177,7 +177,7 @@ class ConfigParserTest extends TestCase
     public function evaluateRequiredField()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
-        $parser = new ConfigParser($configFile);
+        $parser = ConfigParser::getParserForFile($configFile);
 
         $parser->evaluate('application.releaseStage')->isRequired();
         $this->assertEquals('Production', $parser->get('application.releaseStage'));
@@ -190,7 +190,7 @@ class ConfigParserTest extends TestCase
     public function evaluateMissingKeyAsRequiredFieldThrowsException()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
-        $parser = new ConfigParser($configFile);
+        $parser = ConfigParser::getParserForFile($configFile);
 
         $parser->evaluate('application.missingKey')->isRequired();
     }
@@ -201,7 +201,7 @@ class ConfigParserTest extends TestCase
     public function evaluateStringsAsString()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
-        $parser = new ConfigParser($configFile);
+        $parser = ConfigParser::getParserForFile($configFile);
 
         $parser->evaluate('application.releaseStage')->isString();
         $this->assertEquals('Production', $parser->get('application.releaseStage'));
@@ -214,7 +214,7 @@ class ConfigParserTest extends TestCase
     public function evaluateStringAsNumberThrowsException()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
-        $parser = new ConfigParser($configFile);
+        $parser = ConfigParser::getParserForFile($configFile);
 
         $parser->evaluate('application.releaseStage')->isNumeric();
     }
@@ -226,7 +226,7 @@ class ConfigParserTest extends TestCase
     public function evaluateStringAsBooleanThrowsException()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
-        $parser = new ConfigParser($configFile);
+        $parser = ConfigParser::getParserForFile($configFile);
 
         $parser->evaluate('application.releaseStage')->isBoolean();
     }
@@ -237,7 +237,7 @@ class ConfigParserTest extends TestCase
     public function evaluateNumbersAsNumeric()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
-        $parser = new ConfigParser($configFile);
+        $parser = ConfigParser::getParserForFile($configFile);
 
         $parser->evaluate('application.version')->isNumeric();
         $this->assertEquals(6, $parser->get('application.version'));
@@ -250,7 +250,7 @@ class ConfigParserTest extends TestCase
     public function evaluateNumberAsStringThrowsException()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
-        $parser = new ConfigParser($configFile);
+        $parser = ConfigParser::getParserForFile($configFile);
 
         $parser->evaluate('application.version')->isString();
     }
@@ -262,7 +262,7 @@ class ConfigParserTest extends TestCase
     public function evaluateNumberAsBooleanThrowsException()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
-        $parser = new ConfigParser($configFile);
+        $parser = ConfigParser::getParserForFile($configFile);
 
         $parser->evaluate('application.version')->isBoolean();
     }
@@ -273,7 +273,7 @@ class ConfigParserTest extends TestCase
     public function evaluateBooleansAsBoolean()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
-        $parser = new ConfigParser($configFile);
+        $parser = ConfigParser::getParserForFile($configFile);
 
         $parser->evaluate('application.debugMode')->isBoolean();
         $this->assertEquals(true, $parser->get('application.debugMode'));
@@ -286,7 +286,7 @@ class ConfigParserTest extends TestCase
     public function evaluateBooleanAsStringThrowsException()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
-        $parser = new ConfigParser($configFile);
+        $parser = ConfigParser::getParserForFile($configFile);
 
         $parser->evaluate('application.debugMode')->isString();
     }
@@ -298,7 +298,7 @@ class ConfigParserTest extends TestCase
     public function evaluateBooleanAsNumberThrowsException()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
-        $parser = new ConfigParser($configFile);
+        $parser = ConfigParser::getParserForFile($configFile);
 
         $parser->evaluate('application.debugMode')->isNumeric();
     }
@@ -309,7 +309,7 @@ class ConfigParserTest extends TestCase
     public function evaluateIsOneOf()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
-        $parser = new ConfigParser($configFile);
+        $parser = ConfigParser::getParserForFile($configFile);
 
         $parser->evaluate('application.releaseStage')->isOneOf(['Production', 'Staging', 'Test']);
         $this->assertEquals('Production', $parser->get('application.releaseStage'));
@@ -322,7 +322,7 @@ class ConfigParserTest extends TestCase
     public function evaluateIsOneOfNoMatchThrowsException()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
-        $parser = new ConfigParser($configFile);
+        $parser = ConfigParser::getParserForFile($configFile);
 
         $parser->evaluate('application.releaseStage')->isOneOf(['NotMatching1', 'NotMatching2', 'NotMatching3']);
     }
