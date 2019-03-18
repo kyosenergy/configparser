@@ -78,6 +78,12 @@ echo $parser->evaluate('application.releaseStage')->isNumeric();
 echo $parser->evaluate('application.releaseStage')->isBoolean();
 ```
 
+### Array
+
+```php
+echo $parser->evaluate('application')->isArray();
+```
+
 ### Allowed Values
 
 ```php
