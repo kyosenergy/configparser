@@ -4,6 +4,14 @@ All notable changes to `configparser` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## [2.1.0] - 2019-03-18
+### Change
+- Update example usage on README
+- Add PHPDoc blocks for new functions
+- Add new isArray() assertion
+- Add test cases
+- Remove unused property
+
 ## [2.0.0] - 2019-03-15
 ### Change
 - BREAKING: changed calling methodology from constructor to static method
