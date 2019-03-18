@@ -9,8 +9,6 @@ class ConfigParser
 {
     public static $configCache = [];
 
-    protected $lastParseException;
-
     protected $loadedConfig;
 
     protected $evaluateKeys;
@@ -19,32 +17,49 @@ class ConfigParser
 
     /**
      * Get a parser for a file.
-     * If the file is already loaded this will contain the already parsed result object.
+     * If the file is already loaded, the already parsed result object will be returned,
+     * otherwise a new ConfigParser instance will be created.
+     *
+     * @since 2.0.0 introduced
+     *
+     * @param string $path
+     *
+     * @return self
+     * @throws ParseException
+     * @throws \Exception
      */
-    public static function getParserForFile($path)
+    public static function getParserForFile($path): self
     {
         self::ensureFileIsReadable($path);
         $path = realpath($path); // realpath only works on existing paths! so we checked it first.
 
-        // if this file was parsed already, directly return a ConfigParser instance with the loaded config set.
         if (isset(self::$configCache[$path])) {
             $config = self::$configCache[$path];
         } else {
             // not parsed. parse it, add to cache and return object.
             try {
-                $yamlParser = new YamlParser;
-                $config     = $yamlParser->parseFile($path);
+                $yamlParser = new YamlParser();
+                $config = $yamlParser->parseFile($path);
             } catch (ParseException $e) {
                 throw $e;
             }
             self::$configCache[$path] = $config;
         }
 
-        $parser = new ConfigParser;
+        $parser = new ConfigParser();
         $parser->setLoadedConfig($config);
+
         return $parser;
     }
 
+    /**
+     * Add the provided config to the list of already parsed configs.
+     *
+     * @param mixed $config
+     *
+     * @return void
+     * @throws \InvalidArgumentException
+     */
     public function setLoadedConfig($config)
     {
         $this->loadedConfig = $config;
@@ -52,6 +67,8 @@ class ConfigParser
 
     /**
      * Ensures the given filePath is readable.
+     *
+     * @param string $path
      *
      * @return void
      * @throws \InvalidArgumentException
@@ -203,6 +220,23 @@ class ConfigParser
     }
 
     /**
+     * Ensures the evaluateProperty is array
+     *
+     * @return self
+     * @throws \UnexpectedValueException
+     */
+    public function isArray(): self
+    {
+        $this->ensureValuationKeysExist();
+
+        if ($this->valuationIsRequired && !is_array($this->evaluateProperty)) {
+            throw new \UnexpectedValueException(self::exceptionMessage('array', $this->evaluateKeys));
+        }
+
+        return $this;
+    }
+
+    /**
      * Ensures the evaluateProperty is one of the provided allowed values.
      *
      * @param array $allowedValues
@@ -225,10 +259,11 @@ class ConfigParser
      * Provides the proper exception message based in the provided type.
      *
      * @param string $type
+     * @param array $evaluateKeys
      *
      * @return string
      */
-    public static function exceptionMessage(string $type, array $evaluateKeys = []): string
+    private static function exceptionMessage(string $type, array $evaluateKeys = []): string
     {
         $exceptionMessage = '';
 
@@ -240,17 +275,19 @@ class ConfigParser
             case 'fileNotReadable':
                 $exceptionMessage = "Unable to read the provided yaml file";
                 break;
+            case 'array':
+                $exceptionMessage = "One or more config variables failed assertion: {$key} is not an {$type}";
+                break;
             case 'boolean':
             case 'string':
             case 'number':
-                $exceptionMessage = "One or more environment variables failed assertions: {$key} is not a {$type}";
+                $exceptionMessage = "One or more config variables failed assertion: {$key} is not a {$type}";
                 break;
             case 'required':
-                $exceptionMessage = "One or more environment variables failed assertions: {$key} is empty";
+                $exceptionMessage = "One or more config variables failed assertion: {$key} is empty";
                 break;
             case 'oneOf':
-                $exceptionMessage = "One or more environment variables failed assertions: " .
-                "{$key} is not an allowed value";
+                $exceptionMessage = "One or more config variables failed assertion: {$key} is not an allowed value";
                 break;
             case 'noValuationKey':
                 $exceptionMessage = 'No evaluation keys found. Cannot proceed with check.';

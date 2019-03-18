@@ -233,6 +233,18 @@ class ConfigParserTest extends TestCase
 
     /**
      * @test
+     * @expectedException UnexpectedValueException
+     */
+    public function evaluateStringAsArrayThrowsException()
+    {
+        $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
+        $parser = ConfigParser::getParserForFile($configFile);
+
+        $parser->evaluate('application.releaseStage')->isBoolean();
+    }
+
+    /**
+     * @test
      */
     public function evaluateNumbersAsNumeric()
     {
@@ -269,6 +281,18 @@ class ConfigParserTest extends TestCase
 
     /**
      * @test
+     * @expectedException UnexpectedValueException
+     */
+    public function evaluateNumberAsArrayThrowsException()
+    {
+        $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
+        $parser = ConfigParser::getParserForFile($configFile);
+
+        $parser->evaluate('application.version')->isArray();
+    }
+
+    /**
+     * @test
      */
     public function evaluateBooleansAsBoolean()
     {
@@ -301,6 +325,66 @@ class ConfigParserTest extends TestCase
         $parser = ConfigParser::getParserForFile($configFile);
 
         $parser->evaluate('application.debugMode')->isNumeric();
+    }
+
+    /**
+     * @test
+     * @expectedException UnexpectedValueException
+     */
+    public function evaluateBooleanAsArrayThrowsException()
+    {
+        $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
+        $parser = ConfigParser::getParserForFile($configFile);
+
+        $parser->evaluate('application.debugMode')->isArray();
+    }
+
+    /**
+     * @test
+     */
+    public function evaluateArraysAsArray()
+    {
+        $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
+        $parser = ConfigParser::getParserForFile($configFile);
+
+        $parser->evaluate('application')->isArray();
+        $this->assertCount(3, $parser->get('application'));
+    }
+
+    /**
+     * @test
+     * @expectedException UnexpectedValueException
+     */
+    public function evaluateArrayAsStringThrowsException()
+    {
+        $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
+        $parser = ConfigParser::getParserForFile($configFile);
+
+        $parser->evaluate('application')->isString();
+    }
+
+    /**
+     * @test
+     * @expectedException UnexpectedValueException
+     */
+    public function evaluateArrayAsNumberThrowsException()
+    {
+        $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
+        $parser = ConfigParser::getParserForFile($configFile);
+
+        $parser->evaluate('application')->isNumeric();
+    }
+
+    /**
+     * @test
+     * @expectedException UnexpectedValueException
+     */
+    public function evaluateArrayAsBooleanThrowsException()
+    {
+        $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
+        $parser = ConfigParser::getParserForFile($configFile);
+
+        $parser->evaluate('application')->isBoolean();
     }
 
     /**

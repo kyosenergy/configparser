@@ -28,7 +28,7 @@ application:
 you can parse any of its properties using:
 
 ```php
-$parser = new Kyos\ConfigParser('config.yaml');
+$parser = Kyos\ConfigParser::getParserForFile('config.yaml');
 echo $parser->get('application.releaseStage');
 ```
 
@@ -76,6 +76,12 @@ echo $parser->evaluate('application.releaseStage')->isNumeric();
 
 ```php
 echo $parser->evaluate('application.releaseStage')->isBoolean();
+```
+
+### Array
+
+```php
+echo $parser->evaluate('application')->isArray();
 ```
 
 ### Allowed Values
