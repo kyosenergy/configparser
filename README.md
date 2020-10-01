@@ -2,7 +2,6 @@
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
-[![Build Status][ico-travis]][link-travis]
 [![Coverage Status][ico-codecov]][link-codecov]
 [![StyleCI][ico-styleci]][link-styleci]
 [![Total Downloads][ico-downloads]][link-downloads]
@@ -125,15 +124,11 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 
 [ico-version]: https://img.shields.io/packagist/v/kyos/configparser.svg
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg
-[ico-travis]: https://travis-ci.com/kyosenergy/configparser.svg?branch=master
 [ico-codecov]: https://codecov.io/gh/kyosenergy/configparser/branch/master/graph/badge.svg
-[ico-styleci]: https://github.styleci.io/repos/159172475/shield?branch=master
 [ico-downloads]: https://img.shields.io/packagist/dt/kyos/configparser.svg
 
 [link-packagist]: https://packagist.org/packages/kyos/configparser
-[link-travis]: https://travis-ci.com/kyosenergy/configparser
 [link-codecov]: https://codecov.io/gh/kyosenergy/configparser
-[link-styleci]: https://github.styleci.io/repos/159172475
 [link-downloads]: https://packagist.org/packages/kyos/configparser
 [link-author]: https://github.com/zoispag
 [link-contributors]: ../../contributors
