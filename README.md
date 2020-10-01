@@ -2,9 +2,8 @@
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
-[![Test suite][ico-actions]][link-actions]
+![CI](https://github.com/kyosenergy/configparser/workflows/CI/badge.svg?branch=master&event=push)
 [![Coverage Status][ico-codecov]][link-codecov]
-[![StyleCI][ico-styleci]][link-styleci]
 [![Total Downloads][ico-downloads]][link-downloads]
 
 A simple YAML config file loader.
@@ -126,12 +125,10 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [ico-version]: https://img.shields.io/packagist/v/kyos/configparser.svg
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg
 [ico-codecov]: https://codecov.io/gh/kyosenergy/configparser/branch/master/graph/badge.svg
-[ico-actions]: https://github.com/kyosenergy/configparser/workflows/ci/badge.svg?branch=main&event=push
 [ico-downloads]: https://img.shields.io/packagist/dt/kyos/configparser.svg
 
 [link-packagist]: https://packagist.org/packages/kyos/configparser
 [link-codecov]: https://codecov.io/gh/kyosenergy/configparser
-[link-actions]: https://github.com/kyosenergy/clients/actions?query=event%3Apush+branch%3Amaster+workflow%3ACI
 [link-downloads]: https://packagist.org/packages/kyos/configparser
 [link-author]: https://github.com/zoispag
 [link-contributors]: ../../contributors
