@@ -24,7 +24,7 @@ jobs:
           coverage: xdebug
 
       - name: Install composer dependencies
-        run: composer install --prefer-stable --prefer-lowest --no-interaction --no-progress
+        run: composer install --prefer-dist --no-interaction --no-progress
 
       - name: Run style checks
         run: vendor/bin/phpcs --standard=psr2 src/
