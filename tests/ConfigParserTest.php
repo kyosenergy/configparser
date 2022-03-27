@@ -8,20 +8,16 @@ use Symfony\Component\Yaml\Exception\ParseException;
 
 class ConfigParserTest extends TestCase
 {
-    /**
-     * @test
-     *
-     * @expectedException InvalidArgumentException
-     */
+    /** @test */
     public function nonExistingFileGivesException()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $configFile = dirname(__DIR__) . '/tests/fixtures/missingconfig.yml';
         $parser = ConfigParser::getParserForFile($configFile);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function existingFileCanBeLoaded()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/emptyconfig.yml';
@@ -30,20 +26,16 @@ class ConfigParserTest extends TestCase
         $this->assertInstanceOf('Kyos\ConfigParser', $parser);
     }
 
-    /**
-     * @test
-     *
-     * @expectedException Symfony\Component\Yaml\Exception\ParseException
-     */
+    /** @test */
     public function invlidFileThrowsException()
     {
+        $this->expectException(\Symfony\Component\Yaml\Exception\ParseException::class);
+
         $configFile = dirname(__DIR__) . '/tests/fixtures/invalidconfig.yml';
         $parser = ConfigParser::getParserForFile($configFile);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function canParseAnExistingValueUsingSingleString()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
@@ -54,9 +46,7 @@ class ConfigParserTest extends TestCase
         $this->assertEquals('TestValue', $value);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function canParseAnExistingValueUsingDotNotation()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
@@ -67,9 +57,7 @@ class ConfigParserTest extends TestCase
         $this->assertEquals('Production', $value);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function canParseAnExistingValueUsingArrayNotation()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
@@ -80,9 +68,7 @@ class ConfigParserTest extends TestCase
         $this->assertEquals('Production', $value);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function arrayNotationAndDotNotationResultToSameConfig()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
@@ -94,9 +80,7 @@ class ConfigParserTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function returnsNullIfValueIsMissing()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
@@ -107,9 +91,7 @@ class ConfigParserTest extends TestCase
         $this->assertEquals(null, $value);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function returnsNullIfDeeperValueIsMissing()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
@@ -120,9 +102,7 @@ class ConfigParserTest extends TestCase
         $this->assertEquals(null, $value);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function returnsProvidedFallbackIfKeyIsMissing()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
@@ -133,9 +113,7 @@ class ConfigParserTest extends TestCase
         $this->assertEquals('ArbitraryValue', $value);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function returnsProvidedFallbackIfDeeperValueIsMissing()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
@@ -146,9 +124,7 @@ class ConfigParserTest extends TestCase
         $this->assertEquals('ArbitraryValue', $value);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function returnsProvidedFallbackIfValueIsMissing()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
@@ -159,21 +135,18 @@ class ConfigParserTest extends TestCase
         $this->assertEquals('ArbitraryValue', $value);
     }
 
-    /**
-     * @test
-     * @expectedException InvalidArgumentException
-     */
+    /** @test */
     public function beforeValuationCheckEvaluateFunctionHasToBeExecuted()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
         $parser = ConfigParser::getParserForFile($configFile);
 
         $parser->isString();
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function evaluateRequiredField()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
@@ -183,21 +156,18 @@ class ConfigParserTest extends TestCase
         $this->assertEquals('Production', $parser->get('application.releaseStage'));
     }
 
-    /**
-     * @test
-     * @expectedException Exception
-     */
+    /** @test */
     public function evaluateMissingKeyAsRequiredFieldThrowsException()
     {
+        $this->expectException(\Exception::class);
+
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
         $parser = ConfigParser::getParserForFile($configFile);
 
         $parser->evaluate('application.missingKey')->isRequired();
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function evaluateStringsAsString()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
@@ -207,45 +177,40 @@ class ConfigParserTest extends TestCase
         $this->assertEquals('Production', $parser->get('application.releaseStage'));
     }
 
-    /**
-     * @test
-     * @expectedException UnexpectedValueException
-     */
+    /** @test */
     public function evaluateStringAsNumberThrowsException()
     {
+        $this->expectException(\UnexpectedValueException::class);
+
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
         $parser = ConfigParser::getParserForFile($configFile);
 
         $parser->evaluate('application.releaseStage')->isNumeric();
     }
 
-    /**
-     * @test
-     * @expectedException UnexpectedValueException
-     */
+    /** @test */
     public function evaluateStringAsBooleanThrowsException()
     {
+        $this->expectException(\UnexpectedValueException::class);
+
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
         $parser = ConfigParser::getParserForFile($configFile);
 
         $parser->evaluate('application.releaseStage')->isBoolean();
     }
 
-    /**
-     * @test
-     * @expectedException UnexpectedValueException
-     */
+    /** @test */
     public function evaluateStringAsArrayThrowsException()
     {
+        $this->expectException(\UnexpectedValueException::class);
+
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
         $parser = ConfigParser::getParserForFile($configFile);
 
         $parser->evaluate('application.releaseStage')->isBoolean();
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function evaluateNumbersAsNumeric()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
@@ -255,45 +220,40 @@ class ConfigParserTest extends TestCase
         $this->assertEquals(6, $parser->get('application.version'));
     }
 
-    /**
-     * @test
-     * @expectedException UnexpectedValueException
-     */
+    /** @test */
     public function evaluateNumberAsStringThrowsException()
     {
+        $this->expectException(\UnexpectedValueException::class);
+
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
         $parser = ConfigParser::getParserForFile($configFile);
 
         $parser->evaluate('application.version')->isString();
     }
 
-    /**
-     * @test
-     * @expectedException UnexpectedValueException
-     */
+    /** @test */
     public function evaluateNumberAsBooleanThrowsException()
     {
+        $this->expectException(\UnexpectedValueException::class);
+
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
         $parser = ConfigParser::getParserForFile($configFile);
 
         $parser->evaluate('application.version')->isBoolean();
     }
 
-    /**
-     * @test
-     * @expectedException UnexpectedValueException
-     */
+    /** @test */
     public function evaluateNumberAsArrayThrowsException()
     {
+        $this->expectException(\UnexpectedValueException::class);
+
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
         $parser = ConfigParser::getParserForFile($configFile);
 
         $parser->evaluate('application.version')->isArray();
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function evaluateBooleansAsBoolean()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
@@ -303,45 +263,40 @@ class ConfigParserTest extends TestCase
         $this->assertEquals(true, $parser->get('application.debugMode'));
     }
 
-    /**
-     * @test
-     * @expectedException UnexpectedValueException
-     */
+    /** @test */
     public function evaluateBooleanAsStringThrowsException()
     {
+        $this->expectException(\UnexpectedValueException::class);
+
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
         $parser = ConfigParser::getParserForFile($configFile);
 
         $parser->evaluate('application.debugMode')->isString();
     }
 
-    /**
-     * @test
-     * @expectedException UnexpectedValueException
-     */
+    /** @test */
     public function evaluateBooleanAsNumberThrowsException()
     {
+        $this->expectException(\UnexpectedValueException::class);
+
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
         $parser = ConfigParser::getParserForFile($configFile);
 
         $parser->evaluate('application.debugMode')->isNumeric();
     }
 
-    /**
-     * @test
-     * @expectedException UnexpectedValueException
-     */
+    /** @test */
     public function evaluateBooleanAsArrayThrowsException()
     {
+        $this->expectException(\UnexpectedValueException::class);
+
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
         $parser = ConfigParser::getParserForFile($configFile);
 
         $parser->evaluate('application.debugMode')->isArray();
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function evaluateArraysAsArray()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
@@ -351,45 +306,40 @@ class ConfigParserTest extends TestCase
         $this->assertCount(3, $parser->get('application'));
     }
 
-    /**
-     * @test
-     * @expectedException UnexpectedValueException
-     */
+    /** @test */
     public function evaluateArrayAsStringThrowsException()
     {
+        $this->expectException(\UnexpectedValueException::class);
+
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
         $parser = ConfigParser::getParserForFile($configFile);
 
         $parser->evaluate('application')->isString();
     }
 
-    /**
-     * @test
-     * @expectedException UnexpectedValueException
-     */
+    /** @test */
     public function evaluateArrayAsNumberThrowsException()
     {
+        $this->expectException(\UnexpectedValueException::class);
+
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
         $parser = ConfigParser::getParserForFile($configFile);
 
         $parser->evaluate('application')->isNumeric();
     }
 
-    /**
-     * @test
-     * @expectedException UnexpectedValueException
-     */
+    /** @test */
     public function evaluateArrayAsBooleanThrowsException()
     {
+        $this->expectException(\UnexpectedValueException::class);
+
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
         $parser = ConfigParser::getParserForFile($configFile);
 
         $parser->evaluate('application')->isBoolean();
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function evaluateIsOneOf()
     {
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
@@ -399,12 +349,11 @@ class ConfigParserTest extends TestCase
         $this->assertEquals('Production', $parser->get('application.releaseStage'));
     }
 
-    /**
-     * @test
-     * @expectedException UnexpectedValueException
-     */
+    /** @test */
     public function evaluateIsOneOfNoMatchThrowsException()
     {
+        $this->expectException(\UnexpectedValueException::class);
+
         $configFile = dirname(__DIR__) . '/tests/fixtures/config.yml';
         $parser = ConfigParser::getParserForFile($configFile);
 
