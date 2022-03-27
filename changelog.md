@@ -4,6 +4,11 @@ All notable changes to `configparser` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## [3.0.0] - 2022-03-27
+### Change
+- BREAKING: Drop support of PHP 7.x
+- Add tests on CI for 8.0 & 8.1
+
 ## [2.1.0] - 2019-03-18
 ### Change
 - Update example usage on README
