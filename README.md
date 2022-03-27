@@ -1,3 +1,5 @@
+![banner](.github/banner.png)
+
 # configparser
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
